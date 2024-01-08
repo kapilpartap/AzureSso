@@ -31,7 +31,7 @@ return $settings = array(
      * which middleware group to use for the saml routes
      * Laravel 5.2 will need a group which includes StartSession
      */
-    'routesMiddleware' => ['saml'],
+    'routesMiddleware' => [],
 
     /**
      * Indicates how the parameters will be
@@ -67,5 +67,5 @@ return $settings = array(
      * a `$returnTo` argument), this value allows you to pass your own controller, and have
      * it used in the routes definition.
      */
-     'saml2_controller' => 'App\Http\Controllers\SAML2LoginController1',
+     'saml2_controller' => 'Aacotroneo\Saml2\Http\Controllers\Saml2Controller',
 );
