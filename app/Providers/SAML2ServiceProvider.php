@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Event;
 use Aacotroneo\Saml2\Events\Saml2LoginEvent;
 
+
 class SAML2ServiceProvider extends ServiceProvider
 {
     /**
@@ -31,15 +32,25 @@ class SAML2ServiceProvider extends ServiceProvider
                 'attributes' => $user->getAttributes(),
                 'assertion' => $user->getRawSamlAssertion()
             ];
-
+            dd($user);
+            // dd(Hash::make('123'));
+        //    dd($user->getAttribute('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'));
+        //    dd($user->getAttribute('http://schemas.microsoft.com/identity/claims/displayname'));
             $inputs = [
                 'sso_user_id'  => $user->getUserId(),
-                'username'     => self::getValue($user->getAttribute('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name')),
-                'email'        => self::getValue($user->getAttribute('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name')),
-                'first_name'   => self::getValue($user->getAttribute('http://schemas.microsoft.com/identity/claims/displayname')),
-                'last_name'    => self::getValue($user->getAttribute('http://schemas.microsoft.com/identity/claims/displayname')),
-                'password'     => Hash::make('anything'),
+                'username'     => $user->getAttribute('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'),
+                'email'        => $user->getAttribute('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'),
+                'first_name'   => $user->getAttribute('http://schemas.microsoft.com/identity/claims/displayname'),
+                'last_name'    => $user->getAttribute('http://schemas.microsoft.com/identity/claims/displayname'),
+            //    'password'     => Hash::make('123'),
+
+                // 'username'     => self::getValue($user->getAttribute('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name')),
+                // 'email'        => self::getValue($user->getAttribute('http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name')),
+                // 'first_name'   => self::getValue($user->getAttribute('http://schemas.microsoft.com/identity/claims/displayname')),
+                // 'last_name'    => self::getValue($user->getAttribute('http://schemas.microsoft.com/identity/claims/displayname')),
+                // 'password'     => Hash::make('anything'),
              ];
+             //dd($inputs);
 
             $user = User::where('sso_user_id', $inputs['sso_user_id'])->where('email', $inputs['email'])->first();
             if(!$user){
